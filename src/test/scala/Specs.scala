@@ -1,4 +1,3 @@
-import barcode
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.Spec
 
