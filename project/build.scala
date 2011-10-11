@@ -5,7 +5,7 @@ import AndroidKeys._
 
 object General {
   val settings = Defaults.defaultSettings ++ Seq (
-    name := "Easy Bar Code",
+    //name := "Easy Bar Code",
     version := "0.1",
     scalaVersion := "2.8.1",
     platformName in Android := "android-8"
