@@ -1,4 +1,4 @@
-package barcode
+package net.barcode
 
 import _root_.android.app.Activity
 import _root_.android.os.Bundle
