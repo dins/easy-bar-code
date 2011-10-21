@@ -32,6 +32,6 @@ class ReadButtonListener(activity : BarCodeActivity) extends View.OnClickListene
   }
 
   def onActivityResult(requestCode: Int, resultCode: Int,  intent: Intent) {
-    setText("Result: " + intent.getStringExtra("SCAN_RESULT"))
+    activity.setText("Result: " + intent.getStringExtra("SCAN_RESULT"))
   }
 }
