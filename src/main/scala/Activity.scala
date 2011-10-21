@@ -13,9 +13,22 @@ class BarCodeActivity extends Activity with TypedActivity {
     val button = findView(TR.button)
     button.setOnClickListener(new ReadButtonListener(this))
   }
-  def setText(text: String) {
-    setContentView(new TextView(this) {
-      setText(text)
+  override def onActivityResult(requestCode: Int, resultCode: Int,  intent: Intent) {
+    Option(intent) match {
+      case None =>
+      case Some(intent) => {
+        setMessage("Success!")
+        addResult(intent.getStringExtra("SCAN_RESULT"))
+        addResult(intent.getExtras().toString)
+      }
+    }
+  }
+  def setMessage(text: String) {
+    findView(TR.message).setText(text)
+  }
+  def addResult(result: String) {
+    findView(TR.results).addView(new TextView(this){
+      setText("Result: " + result)
     })
   }
 }
@@ -27,11 +40,8 @@ class ReadButtonListener(activity : BarCodeActivity) extends View.OnClickListene
     try {
       activity.startActivityForResult(intent, 0)
     } catch {
-      case ex: Exception => activity.setText("Error: " + ex.getMessage)
+      case ex: Exception => activity.setMessage("Error: " + ex.getMessage)
     }
   }
 
-  def onActivityResult(requestCode: Int, resultCode: Int,  intent: Intent) {
-    activity.setText("Result: " + intent.getStringExtra("SCAN_RESULT"))
-  }
 }
