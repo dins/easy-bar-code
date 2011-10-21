@@ -1,3 +1,5 @@
 <resources>
+    <string name="hello">I read bar codes!</string>
     <string name="app_name">Easy Bar Code</string>
+    <string name="read_code">Lue viivakoodi</string>
 </resources>
