@@ -30,8 +30,12 @@ class BarCodeActivity extends Activity with TypedActivity {
   }
   def setMessage(text: String) {
     val message = findView(TR.message)
-    message.setVisibility(View.VISIBLE)
     message.setText(text)
+    animateMessage(message)
+  }
+
+  def animateMessage(message: TextView) {
+    message.setVisibility(View.VISIBLE)
     val animation = new TranslateAnimation(0, message.getWidth(), 0, 0)
     animation.setDuration(1000)
     animation.setStartOffset(2000)
@@ -47,6 +51,7 @@ class BarCodeActivity extends Activity with TypedActivity {
     })
     message.startAnimation(animation)
   }
+
   def addResult(result: String) {
     findView(TR.results).addView(new TextView(this){
       setText("Result: " + result)
