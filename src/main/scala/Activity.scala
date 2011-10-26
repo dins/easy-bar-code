@@ -15,13 +15,16 @@ class BarCodeActivity extends Activity with TypedActivity {
     val button = findView(TR.button)
     button.setOnClickListener(new ReadButtonListener(this))
   }
+
   override def onActivityResult(requestCode: Int, resultCode: Int,  intent: Intent) {
     Option(intent) match {
       case None =>
       case Some(intent) => {
         setMessage("Success!")
-        addResult(intent.getStringExtra("SCAN_RESULT"))
+        //addResult(result.getStringExtra("SCAN_RESULT"))
         addResult(intent.getExtras().toString)
+        //sendToEvernote(result)
+        //sendEmail(intent)
       }
     }
   }
@@ -48,6 +51,21 @@ class BarCodeActivity extends Activity with TypedActivity {
     findView(TR.results).addView(new TextView(this){
       setText("Result: " + result)
     })
+  }
+  def sendEmail(result: Intent) {
+    val intent = new Intent(android.content.Intent.ACTION_SEND)
+    intent.putExtra(android.content.Intent.EXTRA_EMAIL, "oskari@reaktor.fi")
+    intent.putExtra(android.content.Intent.EXTRA_TEXT, "Bar code: " + result.getStringExtra("SCAN_RESULT"))
+    intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "A bill to pay")
+    startActivity(intent)
+  }
+  def sendToEvernote(result: Intent) {
+    val intent = new Intent("com.evernote.action.CREATE_NEW_NOTE")
+    intent.putExtra("EXTRA_TITLE", "A bill to pay")
+    intent.putExtra("EXTRA_TEXT", "Bar code: " + result.getStringExtra("SCAN_RESULT"))
+    intent.putExtra("TITLE", "A bill to pay")
+    intent.putExtra("TEXT", "Bar code: " + result.getStringExtra("SCAN_RESULT"))
+    startActivity(intent)
   }
 }
 
