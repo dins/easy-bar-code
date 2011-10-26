@@ -63,8 +63,6 @@ class BarCodeActivity extends Activity with TypedActivity {
     val intent = new Intent("com.evernote.action.CREATE_NEW_NOTE")
     intent.putExtra("EXTRA_TITLE", "A bill to pay")
     intent.putExtra("EXTRA_TEXT", "Bar code: " + result.getStringExtra("SCAN_RESULT"))
-    intent.putExtra("TITLE", "A bill to pay")
-    intent.putExtra("TEXT", "Bar code: " + result.getStringExtra("SCAN_RESULT"))
     startActivity(intent)
   }
 }
