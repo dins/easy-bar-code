@@ -1,5 +1,5 @@
-import net.barcode.BarCodeActivity
 import com.github.jbrechtel.robospecs.RoboSpecs
+import net.barcode.{TR, R, BarCodeActivity}
 import org.specs2.execute.StandardResults._
 import org.specs2.mock.Mockito
 import org.specs2.mutable._
@@ -15,6 +15,11 @@ class MainActivitySpecs extends RoboSpecs with Mockito {
       val activity = new BarCodeActivity()
       activity.onCreate(null)
       done
+    }
+    "add button" in {
+      val activity = new BarCodeActivity()
+      activity.onCreate(null)
+      activity.findView(TR.button) must not beNull
     }
   }
 }
