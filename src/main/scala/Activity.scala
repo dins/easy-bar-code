@@ -58,10 +58,10 @@ class BarCodeActivity extends Activity with TypedActivity {
     })
   }
   def sendEmail(result: Intent) {
-    val intent = new Intent(android.content.Intent.ACTION_SEND)
-    intent.putExtra(android.content.Intent.EXTRA_EMAIL, "oskari@reaktor.fi")
-    intent.putExtra(android.content.Intent.EXTRA_TEXT, "Bar code: " + result.getStringExtra("SCAN_RESULT"))
-    intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "A bill to pay")
+    val intent = new Intent(Intent.ACTION_SEND)
+    intent.putExtra(Intent.EXTRA_EMAIL, "oskari@reaktor.fi")
+    intent.putExtra(Intent.EXTRA_TEXT, "Bar code: " + result.getStringExtra("SCAN_RESULT"))
+    intent.putExtra(Intent.EXTRA_SUBJECT, "A bill to pay")
     startActivity(intent)
   }
   def sendToEvernote(result: Intent) {
