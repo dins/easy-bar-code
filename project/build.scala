@@ -8,7 +8,7 @@ object General {
     //name := "Easy Bar Code",
     version := "0.3",
     scalaVersion := "2.8.1",
-    platformName in Android := "android-8"
+    platformName in Android := "android-9"
   )
 
   lazy val fullAndroidSettings =
