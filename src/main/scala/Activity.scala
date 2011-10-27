@@ -23,8 +23,8 @@ class BarCodeActivity extends Activity with TypedActivity {
         setMessage("Success!")
         //addResult(result.getStringExtra("SCAN_RESULT"))
         addResult(intent.getExtras().toString)
-        //sendToEvernote(result)
-        //sendEmail(intent)
+        //sendToEvernote(intent)
+        sendEmail(intent)
       }
     }
   }
@@ -59,6 +59,7 @@ class BarCodeActivity extends Activity with TypedActivity {
   }
   def sendEmail(result: Intent) {
     val intent = new Intent(Intent.ACTION_SEND)
+    intent.setType("plain/text")
     intent.putExtra(Intent.EXTRA_EMAIL, "oskari@reaktor.fi")
     intent.putExtra(Intent.EXTRA_TEXT, "Bar code: " + result.getStringExtra("SCAN_RESULT"))
     intent.putExtra(Intent.EXTRA_SUBJECT, "A bill to pay")
