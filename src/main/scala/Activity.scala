@@ -11,6 +11,8 @@ import android.content.{DialogInterface, Intent, Context}
 
 class BarCodeActivity extends Activity with TypedActivity {
   private var results = List[String]()
+  private val EMAIL_ALERT = 11
+  private val ABOUT_ALERT = 22
 
   override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
@@ -31,12 +33,16 @@ class BarCodeActivity extends Activity with TypedActivity {
   }
 
   override def onOptionsItemSelected(item: MenuItem): Boolean = {
-    Option(item) match {
-      case None => return false
-      case Some(item) => {
+    item.getItemId match {
+      case R.id.settings => {
         showPreferences
         true
       }
+      case R.id.about => {
+        showDialog(ABOUT_ALERT)
+        true
+      }
+      case _ => return false
     }
   }
   private def showPreferences {
@@ -53,12 +59,29 @@ class BarCodeActivity extends Activity with TypedActivity {
       }
     }
   }
-  override def onCreateDialog(id: Int): Dialog ={
+
+  override def onCreateDialog(id: Int): Dialog = {
+    id match {
+      case EMAIL_ALERT => createEmailAlert
+      case ABOUT_ALERT => createAboutAlert
+    }
+  }
+  def createEmailAlert: AlertDialog = {
     val builder = new AlertDialog.Builder(this)
     builder.setTitle("Please set email address in the settings before continuing!").setPositiveButton("OK",
       new DialogInterface.OnClickListener() {
-        override def onClick(dialod: DialogInterface, id: Int) {
+        override def onClick(dialog: DialogInterface, id: Int) {
           showPreferences
+        }
+      })
+    builder.create()
+  }
+  def createAboutAlert: AlertDialog = {
+    val builder = new AlertDialog.Builder(this)
+    builder.setTitle("About").setMessage("Easy Bar Code 0.3\n\nIcons by http://www.androidicons.com")
+      .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        override def onClick(dialog: DialogInterface, id: Int) {
+          dialog.dismiss()
         }
       })
     builder.create()
@@ -76,7 +99,7 @@ class BarCodeActivity extends Activity with TypedActivity {
 
   private def animateMessage(message: TextView) {
     message.setVisibility(View.VISIBLE)
-    val move = new TranslateAnimation(0, message.getWidth(), 0, 0)
+    val move   = new TranslateAnimation(0, message.getWidth(), 0, 0)
     move.setDuration(1000)
     move.setStartOffset(2000)
     move.setInterpolator(new AccelerateInterpolator())
@@ -122,7 +145,7 @@ class BarCodeActivity extends Activity with TypedActivity {
     val email = getEmailPreference()
     Option(email) match {
       case None | Some("") => {
-        showDialog(1)
+        showDialog(EMAIL_ALERT)
       }
       case _ =>
     }
