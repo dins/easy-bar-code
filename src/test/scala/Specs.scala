@@ -19,7 +19,7 @@ class MainActivitySpecs extends RoboSpecs with Mockito {
     "add button" in {
       val activity = new BarCodeActivity()
       activity.onCreate(null)
-      activity.findView(TR.button) must not beNull
+      activity.findView(TR.read_button) must not beNull
     }
   }
 }
