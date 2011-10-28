@@ -76,11 +76,11 @@ class BarCodeActivity extends Activity with TypedActivity {
 
   private def animateMessage(message: TextView) {
     message.setVisibility(View.VISIBLE)
-    val animation = new TranslateAnimation(0, message.getWidth(), 0, 0)
-    animation.setDuration(1000)
-    animation.setStartOffset(2000)
-    animation.setInterpolator(new AccelerateInterpolator())
-    animation.setAnimationListener(new AnimationListener {
+    val move = new TranslateAnimation(0, message.getWidth(), 0, 0)
+    move.setDuration(1000)
+    move.setStartOffset(2000)
+    move.setInterpolator(new AccelerateInterpolator())
+    move.setAnimationListener(new AnimationListener {
       def onAnimationStart(p1: Animation) {}
 
       def onAnimationEnd(p1: Animation) {
@@ -89,7 +89,7 @@ class BarCodeActivity extends Activity with TypedActivity {
 
       def onAnimationRepeat(p1: Animation) {}
     })
-    message.startAnimation(animation)
+    message.startAnimation(move)
   }
 
   private def addResult(extras: Bundle) {
