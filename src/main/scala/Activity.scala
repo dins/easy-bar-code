@@ -10,6 +10,8 @@ import android.app.{AlertDialog, Dialog, Activity}
 import android.content.{DialogInterface, Intent, Context}
 
 class BarCodeActivity extends Activity with TypedActivity {
+  private var results = List[String]()
+
   override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.main)
@@ -17,8 +19,11 @@ class BarCodeActivity extends Activity with TypedActivity {
     button.setOnClickListener(new ReadButtonListener(this))
     setMessage("Email: " + getEmailPreference)
     checkEmailIsSet()
+    findView(TR.send_button).setEnabled(false)
   }
-
+  def sendButtonOnClick(view: View) {
+    sendEmail()
+  }
   override def onCreateOptionsMenu(menu: Menu): Boolean = {
     getMenuInflater().inflate(R.menu.menu, menu)
     true
@@ -41,9 +46,9 @@ class BarCodeActivity extends Activity with TypedActivity {
       case None =>
       case Some(intent) => {
         setMessage("Success!")
-        addResult(intent.getExtras().toString)
+        addResult(intent.getExtras())
+        findView(TR.send_button).setEnabled(true)
         //sendToEvernote(intent)
-        sendEmail(intent)
       }
     }
   }
@@ -86,17 +91,19 @@ class BarCodeActivity extends Activity with TypedActivity {
     message.startAnimation(animation)
   }
 
-  private def addResult(result: String) {
+  private def addResult(extras: Bundle) {
+    val code = extras.get("SCAN_RESULT").toString
+    results = code :: results
     findView(TR.results).addView(new TextView(this){
-      setText("Result: " + result)
+      setText("Result: " + code + ", " + extras.toString)
     })
   }
-  private def sendEmail(result: Intent) {
+  private def sendEmail() {
     val intent = new Intent(Intent.ACTION_SEND)
     intent.setType("plain/text")
     intent.putExtra(Intent.EXTRA_EMAIL, getEmailPreference())
-    intent.putExtra(Intent.EXTRA_TEXT, "Bar code: " + result.getStringExtra("SCAN_RESULT"))
-    intent.putExtra(Intent.EXTRA_SUBJECT, "A bill to pay")
+    intent.putExtra(Intent.EXTRA_TEXT, "Bar codes: " + results.toString())
+    intent.putExtra(Intent.EXTRA_SUBJECT, "Bar codes")
     startActivity(intent)
   }
   private def checkEmailIsSet() {
