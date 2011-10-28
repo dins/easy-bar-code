@@ -4,5 +4,5 @@
             android:name="Email"
             android:summary="Address to send the barcodes to"
             android:title="Email"
-            android:key="emailPref" />
+            android:key="emailPref"/>
 </PreferenceScreen>

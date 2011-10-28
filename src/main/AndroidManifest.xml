@@ -1,6 +1,5 @@
-<manifest 
-    android:versionName="0.3" android:versionCode="1" package="net.barcode"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest android:versionName="0.3" android:versionCode="1" package="net.barcode"
+        xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-sdk android:minSdkVersion="9"></uses-sdk>
     <application android:icon="@drawable/android:star_big_on" android:label="@string/app_name">
         <activity android:label="@string/app_name" android:name=".BarCodeActivity">
@@ -9,9 +8,7 @@
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
-        <activity
-                android:name=".Preferences"
-                android:label="@string/set_preferences">
+        <activity android:name=".Preferences" android:label="@string/set_preferences">
         </activity>
     </application>
 </manifest>

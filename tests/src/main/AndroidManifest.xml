@@ -3,13 +3,13 @@
     <application>
         <uses-library android:name="android.test.runner"></uses-library>
         <activity android:name=".BarCodeActivity" android:label="@string/app_name">
-           <intent-filter>
-               <action android:name="android.intent.action.MAIN"/>
-               <category android:name="android.intent.category.LAUNCHER"/>
-           </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
-    <instrumentation 
-    android:label="Tests" android:targetPackage="barcode" android:name="android.test.InstrumentationTestRunner">
-</instrumentation>
+    <instrumentation
+            android:label="Tests" android:targetPackage="barcode" android:name="android.test.InstrumentationTestRunner">
+    </instrumentation>
 </manifest>
