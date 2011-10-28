@@ -1,12 +1,13 @@
 package net.barcode
 
-import _root_.android.app.Activity
-import android.view.View
-import android.content.{Context, Intent}
 import android.os.{SystemClock, Bundle}
 import android.view.animation.{AccelerateInterpolator, TranslateAnimation, AnimationUtils, Animation}
 import android.widget.{LinearLayout, Button, TextView}
 import android.view.animation.Animation.AnimationListener
+import android.view.{MenuItem, MenuInflater, Menu, View}
+import android.preference.{PreferenceManager, PreferenceActivity}
+import android.app.{AlertDialog, Dialog, Activity}
+import android.content.{DialogInterface, Intent, Context}
 
 class BarCodeActivity extends Activity with TypedActivity {
   override def onCreate(savedInstanceState: Bundle) {
@@ -14,27 +15,60 @@ class BarCodeActivity extends Activity with TypedActivity {
     setContentView(R.layout.main)
     val button = findView(TR.button)
     button.setOnClickListener(new ReadButtonListener(this))
+    setMessage("Email: " + getEmailPreference)
+    checkEmailIsSet()
   }
 
+  override def onCreateOptionsMenu(menu: Menu): Boolean = {
+    getMenuInflater().inflate(R.menu.menu, menu)
+    true
+  }
+
+  override def onOptionsItemSelected(item: MenuItem): Boolean = {
+    Option(item) match {
+      case None => return false
+      case Some(item) => {
+        showPreferences
+        true
+      }
+    }
+  }
+  private def showPreferences {
+    startActivity(new Intent(getBaseContext(), classOf[Preferences]))
+  }
   override def onActivityResult(requestCode: Int, resultCode: Int,  intent: Intent) {
     Option(intent) match {
       case None =>
       case Some(intent) => {
         setMessage("Success!")
-        //addResult(result.getStringExtra("SCAN_RESULT"))
         addResult(intent.getExtras().toString)
         //sendToEvernote(intent)
         sendEmail(intent)
       }
     }
   }
+  override def onCreateDialog(id: Int): Dialog ={
+    val builder = new AlertDialog.Builder(this)
+    builder.setTitle("Please set email address in the settings before continuing!").setPositiveButton("OK",
+      new DialogInterface.OnClickListener() {
+        override def onClick(dialod: DialogInterface, id: Int) {
+          showPreferences
+        }
+      })
+    builder.create()
+  }
+  private def getEmailPreference(): String = {
+    val prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    prefs.getString("emailPref", null)
+  }
+
   def setMessage(text: String) {
     val message = findView(TR.message)
     message.setText(text)
     animateMessage(message)
   }
 
-  def animateMessage(message: TextView) {
+  private def animateMessage(message: TextView) {
     message.setVisibility(View.VISIBLE)
     val animation = new TranslateAnimation(0, message.getWidth(), 0, 0)
     animation.setDuration(1000)
@@ -52,20 +86,29 @@ class BarCodeActivity extends Activity with TypedActivity {
     message.startAnimation(animation)
   }
 
-  def addResult(result: String) {
+  private def addResult(result: String) {
     findView(TR.results).addView(new TextView(this){
       setText("Result: " + result)
     })
   }
-  def sendEmail(result: Intent) {
+  private def sendEmail(result: Intent) {
     val intent = new Intent(Intent.ACTION_SEND)
     intent.setType("plain/text")
-    intent.putExtra(Intent.EXTRA_EMAIL, "oskari@reaktor.fi")
+    intent.putExtra(Intent.EXTRA_EMAIL, getEmailPreference())
     intent.putExtra(Intent.EXTRA_TEXT, "Bar code: " + result.getStringExtra("SCAN_RESULT"))
     intent.putExtra(Intent.EXTRA_SUBJECT, "A bill to pay")
     startActivity(intent)
   }
-  def sendToEvernote(result: Intent) {
+  private def checkEmailIsSet() {
+    val email = getEmailPreference()
+    Option(email) match {
+      case None | Some("") => {
+        showDialog(1)
+      }
+      case _ =>
+    }
+  }
+  private def sendToEvernote(result: Intent) {
     val intent = new Intent("com.evernote.action.CREATE_NEW_NOTE")
     intent.setType("plain/text")
     intent.putExtra("EXTRA_TITLE", "A bill to pay")
@@ -84,6 +127,14 @@ class ReadButtonListener(activity : BarCodeActivity) extends View.OnClickListene
     } catch {
       case ex: Exception => activity.setMessage("Error: " + ex.getMessage)
     }
+  }
+
+}
+
+class Preferences extends PreferenceActivity {
+  override def onCreate(savedInstanceState: Bundle) {
+    super.onCreate(savedInstanceState)
+    addPreferencesFromResource(R.layout.preferences)
   }
 
 }

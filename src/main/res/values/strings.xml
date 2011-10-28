@@ -1,5 +1,7 @@
 <resources>
     <string name="hello">I read bar codes!</string>
     <string name="app_name">Easy Bar Code</string>
-    <string name="read_code">Lue viivakoodi</string>
+    <string name="read_code">Read bar code</string>
+    <string name="settings">Settings</string>
+    <string name="set_preferences">Settings</string>
 </resources>
