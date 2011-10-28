@@ -17,7 +17,6 @@ class BarCodeActivity extends Activity with TypedActivity {
   override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.main)
-    setMessage("Email: " + getEmailPreference)
     checkEmailIsSet()
     findView(TR.send_button).setEnabled(false)
   }
@@ -55,7 +54,6 @@ class BarCodeActivity extends Activity with TypedActivity {
         setMessage("Success!")
         addResult(intent.getExtras())
         findView(TR.send_button).setEnabled(true)
-        //sendToEvernote(intent)
       }
     }
   }
@@ -149,14 +147,6 @@ class BarCodeActivity extends Activity with TypedActivity {
       }
       case _ =>
     }
-  }
-  private def sendToEvernote(result: Intent) {
-    val intent = new Intent("com.evernote.action.CREATE_NEW_NOTE")
-    intent.setType("plain/text")
-    intent.putExtra("EXTRA_TITLE", "A bill to pay")
-    intent.putExtra("EXTRA_TEXT", "Bar code: " + result.getStringExtra("SCAN_RESULT"))
-    intent.putExtra("EXTRA_SUBJECT", "A bill to pay")
-    startActivity(intent)
   }
 }
 
