@@ -51,7 +51,7 @@ class BarCodeActivity extends Activity with TypedActivity {
     Option(intent) match {
       case None =>
       case Some(intent) => {
-        setMessage("Success!")
+        setMessage(getString(R.string.succesfull_scan))
         addResult(intent.getExtras())
         findView(TR.send_button).setEnabled(true)
       }
@@ -117,7 +117,7 @@ class BarCodeActivity extends Activity with TypedActivity {
     val code = extras.get("SCAN_RESULT").toString
     results = code :: results
     findView(TR.results).addView(new TextView(this){
-      setText("Result: " + code + ", " + extras.toString)
+      setText(code + ", " + extras.toString)
     })
   }
 
@@ -127,7 +127,7 @@ class BarCodeActivity extends Activity with TypedActivity {
     try {
       startActivityForResult(intent, 0)
     } catch {
-      case ex: Exception => setMessage("Error: " + ex.getMessage)
+      case ex: Exception => setMessage(getString(R.string.error) + ": " + ex.getMessage)
     }
   }
 
@@ -135,8 +135,8 @@ class BarCodeActivity extends Activity with TypedActivity {
     val intent = new Intent(Intent.ACTION_SEND)
     intent.setType("plain/text")
     intent.putExtra(Intent.EXTRA_EMAIL, getEmailPreference())
-    intent.putExtra(Intent.EXTRA_TEXT, "Bar codes: " + results.toString())
-    intent.putExtra(Intent.EXTRA_SUBJECT, "Bar codes")
+    intent.putExtra(Intent.EXTRA_TEXT, R.string.email_title + ": " + results.toString())
+    intent.putExtra(Intent.EXTRA_SUBJECT, R.string.email_title)
     startActivity(intent)
   }
   private def checkEmailIsSet() {

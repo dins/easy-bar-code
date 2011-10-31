@@ -10,4 +10,7 @@
     <string name="email_alert_message">Please set email address in the settings before continuing!</string>
     <string name="email_alert_ok">OK</string>
     <string name="set_preferences">Settings</string>
+    <string name="email_title">Bar codes</string>
+    <string name="succesfull_scan">Succesfull scan!</string>
+    <string name="error">Error</string>
 </resources>
