@@ -5,5 +5,9 @@
     <string name="send_button">Send codes</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
+    <string name="about_message">Easy Bar Code 0.3\n\nIcons by http://www.androidicons.com</string>
+    <string name="about_ok">OK</string>
+    <string name="email_alert_message">Please set email address in the settings before continuing!</string>
+    <string name="email_alert_ok">OK</string>
     <string name="set_preferences">Settings</string>
 </resources>

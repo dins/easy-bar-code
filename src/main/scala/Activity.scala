@@ -66,7 +66,7 @@ class BarCodeActivity extends Activity with TypedActivity {
   }
   def createEmailAlert: AlertDialog = {
     val builder = new AlertDialog.Builder(this)
-    builder.setTitle("Please set email address in the settings before continuing!").setPositiveButton("OK",
+    builder.setTitle(R.string.email_alert_message).setPositiveButton(R.string.email_alert_ok,
       new DialogInterface.OnClickListener() {
         override def onClick(dialog: DialogInterface, id: Int) {
           showPreferences
@@ -76,8 +76,8 @@ class BarCodeActivity extends Activity with TypedActivity {
   }
   def createAboutAlert: AlertDialog = {
     val builder = new AlertDialog.Builder(this)
-    builder.setTitle("About").setMessage("Easy Bar Code 0.3\n\nIcons by http://www.androidicons.com")
-      .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    builder.setTitle(R.string.about).setMessage(R.string.about_message)
+      .setPositiveButton(R.string.about_ok, new DialogInterface.OnClickListener() {
         override def onClick(dialog: DialogInterface, id: Int) {
           dialog.dismiss()
         }
